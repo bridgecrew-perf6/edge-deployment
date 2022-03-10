@@ -1,0 +1,75 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: appd-otel
+spec:
+  image: otel/opentelemetry-collector-contrib
+  mode: deployment
+  replicas: 3
+  serviceAccount: default
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    
+    processors:
+
+    exporters:
+      loadbalancing:
+        protocol:
+          otlp:
+            tls:
+              insecure: true
+      
+        resolver:
+          dns:
+            hostname: appd-agg-collector
+            port: 4317
+      
+      logging:
+        loglevel: debug
+
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [loadbalancing, logging]
+
+---
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: appd-agg
+spec:
+  image: otel/opentelemetry-collector-contrib
+  mode: deployment
+  serviceAccount: default
+  replicas: 3
+  config: |
+    processors:
+      batch:
+       
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+  
+    exporters:
+      jaeger:
+        endpoint: "jaeger:14250"
+        tls:
+          insecure: true
+
+      logging:
+        loglevel: debug
+ 
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [jaeger, logging]
