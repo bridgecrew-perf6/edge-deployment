@@ -4,11 +4,12 @@ Collector Farm Deployment Manifest
 ## Architecture
 
 ```bash 
-                    | [Otel Collector With LoadBalancing Exporter] \  /-> [Otel Collector With Aggregations] ----\                 |
-                    |                                               \/                                            ->[Jaeger]       |
-  OTLP Traffic ---> |                                              / \                                            ->[Prometheues]  |
-                    | [Otel Collector With LoadBalancing Exporter]/   \-> [Otel Collector With Aggregations] ----/                 |
-  
+          | [Otel Collector With LoadBalancing Exporter] \  /-> [Otel Collector With Aggregations] ----\                 |
+          |                                               \/                                            ->[Jaeger]       |
+ OTLP --> |                                              / \                                            ->[Prometheues]  |
+          | [Otel Collector With LoadBalancing Exporter]/   \-> [Otel Collector With Aggregations] ----/                 |
+
+```
 ## Installation
 
 The deployment is meant to work with [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator). 
