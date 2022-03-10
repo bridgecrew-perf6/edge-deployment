@@ -7,11 +7,11 @@ Collector Farm Deployment Manifest
 
 ## Installation
 
-The deployment is meant to work with [OpenTelemetry Operator][https://github.com/open-telemetry/opentelemetry-operator]. 
+The deployment is meant to work with [OpenTelemetry Operator](https://github.com/open-telemetry/opentelemetry-operator). 
 
 ### Pre-requisites 
 
-- Install OpenTelemetry Operator using these instructions [https://github.com/open-telemetry/opentelemetry-operator#getting-started]
+- Install OpenTelemetry Operator using these [instructions](https://github.com/open-telemetry/opentelemetry-operator#getting-started)
 
 
 ```bash
