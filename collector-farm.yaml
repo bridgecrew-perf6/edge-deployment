@@ -48,11 +48,15 @@ spec:
   image: otel/opentelemetry-collector-contrib
   mode: deployment
   serviceAccount: default
-  replicas: 3
+  replicas: 1
   config: |
     processors:
       batch:
-       
+  
+      groupbytrace:
+        wait_duration: 10s
+        num_traces: 100
+    
     receivers:
       otlp:
         protocols:
@@ -71,5 +75,5 @@ spec:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [batch]
-          exporters: [jaeger, logging]
+          processors: [groupbytrace, batch]
+          exporters: [logging]
